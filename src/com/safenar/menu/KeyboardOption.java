@@ -1,12 +1,10 @@
 package com.safenar.menu;
 
-import java.awt.*;
-
 public class KeyboardOption extends Option {
     private int[] keyCodes;
 
-    public KeyboardOption(String desc, Component comp, int... keyCodes) {
-        super(desc, comp);
+    public KeyboardOption(String desc, int... keyCodes) {
+        super(desc, Option.COMP_BUTTON);
         this.keyCodes = keyCodes;
     }
 
