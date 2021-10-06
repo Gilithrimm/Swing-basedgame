@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class Option {
     public static final JButton COMP_BUTTON=new JButton();
+    public static final JCheckBox COMP_CHECKBOX=new JCheckBox();
+
 
     protected String desc;
     private Component comp;//?
