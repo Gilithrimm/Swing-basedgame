@@ -1,8 +1,10 @@
 package com.safenar.data;
 
+import java.awt.*;
+
 public class Entity {
-    private int posX;
-    private int posY;
+    protected int posX;
+    protected int posY;
     private Stats stats;
 
     public Entity(int posX, int posY, Stats stats) {
@@ -33,5 +35,9 @@ public class Entity {
 
     public void setStats(Stats stats) {
         this.stats = stats;
+    }
+
+    public void draw(Graphics g){
+
     }
 }

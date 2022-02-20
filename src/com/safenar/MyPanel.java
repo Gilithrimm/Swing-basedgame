@@ -8,9 +8,10 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class MyPanel extends JPanel implements KeyListener{
-    Player player=new Player(10,10, new Stats(1,1,1));
+public class MyPanel extends JPanel implements KeyListener,Runnable{
+    Player player=new Player(10,200, new Stats(1,1,1));
     Dimension size;
+    private boolean running;
 
     public MyPanel(Dimension size) {
         setBackground(Color.BLUE);
@@ -21,12 +22,12 @@ public class MyPanel extends JPanel implements KeyListener{
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void addNotify() {
+        super.addNotify();
+        Thread thread = new Thread(this);
+        thread.start();
+        running = true;
     }
-
-
-
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -35,9 +36,34 @@ public class MyPanel extends JPanel implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         int key=e.getKeyCode();
-        Main.println("key="+e.getKeyChar());
+        Main.println("key="+e.getKeyCode());
         player.move(key);
-        repaint();
+    }
+    @Override
+    public void run() {
+        while (running) {
+            long start = System.currentTimeMillis();
+            System.out.println("start = " + start);
+            long elapsed = System.currentTimeMillis() - start;
+            System.out.println("elapsed = " + elapsed);
+            int FPS = 60;
+            long targetTime = 1000 / FPS;
+            long wait = targetTime - elapsed / 1000000;
+            if (wait < 0 ) wait = 5;
+            System.out.println("wait = " + wait);
+            try {
+                Thread.sleep(wait);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            repaint();
+        }
+    }
+
+    public void update(Graphics g){
+        getPlayer().draw(g);
+        if(getPlayer().getPosX()>=size.getWidth()||getPlayer().getPosX()<0) getPlayer().setPosX(750);
+        if (getPlayer().getPosY()>=size.getHeight()||getPlayer().getPosY()<0) getPlayer().setPosY(300);
     }
 
     @Override
@@ -45,24 +71,10 @@ public class MyPanel extends JPanel implements KeyListener{
 
     }
     @Override
-    public void paint(Graphics g) {
-//        super.paint(g);
-//        Graphics2D g2d=(Graphics2D) g;
-//
-//        g2d.setColor(new Color(255,175,0));
-//        g2d.fillRect(getPlayer().getPosX(),getPlayer().getPosY(),30,30);
-//        g2d.setColor(new Color(255, 100,0));
-//        g2d.fillOval(getPlayer().getPosX()+5,getPlayer().getPosY()-15,35,35);
-//        if(getPlayer().getPosX()>=size.getWidth()||getPlayer().getPosX()<0){
-//            getPlayer().setPosX(750);
-//        }
-//        if (getPlayer().getPosY()>=size.getHeight()||getPlayer().getPosY()<0){
-//            getPlayer().setPosY(300);
-//        }
-//        Main.println(getPlayer().getPosX());
-//        Main.println(getPlayer().getPosY());
-//        Main.println(getPlayer().getStats());
-//        Main.println(getPlayer().getStats().toString());
-//        Main.println(size.toString());
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        update(g);
     }
+
+
 }
