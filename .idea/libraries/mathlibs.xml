@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="mathlibs">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../mathlibs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../mathlibs/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../mathlibs/src/test/java" />
+    </SOURCES>
+  </library>
+</component>
